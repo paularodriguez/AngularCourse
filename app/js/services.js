@@ -49,21 +49,26 @@ angular.module('myApp.services', [])
 	};
 	return textMessageServiceObject;
 })
-.factory('authService', function($firebaseSimpleLogin, $location, $rootScope, FIREBASE_URL){
+.factory('authService', function($firebaseSimpleLogin, $location, $rootScope, FIREBASE_URL, dataService){
 	var authRef = new Firebase(FIREBASE_URL);
 	var auth = $firebaseSimpleLogin(authRef);
+	var emails = dataService.$child('emails');
+
 	var authServiceObject =  {
 		register: function(user){
 			auth.$createUser(user.email, user.password).then(function(data){
 				console.log(data);
-				authServiceObject.login(user);
+				authServiceObject.login(user, function(){
+					emails.$add({email:user.email});	
+				});
 			});
 		},
-		login: function(user){
+		login: function(user, optionalCallback){
 			auth.$login('password', user).then(function(data){
-			console.log(data);
-			$location.path('/waitlist');
-		});
+				console.log(data);
+				optionalCallback();
+				$location.path('/waitlist');
+			});
 		},
 		logout:function(){
 			auth.$logout();

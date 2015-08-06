@@ -1,0 +1,23 @@
+//FIREBASE RULES
+{
+  "rules":{
+    "emails": {
+      "$emailId": {
+          ".read":"false",
+          ".write":"auth != null"
+        }  
+    },
+    "textMessages":{
+      "$textMessageId": {
+          ".read":"false",
+          ".write":"auth != null"
+        }
+      },
+    "users":{
+        "$userId":{
+            ".read":"auth != null && auth.id == auth.id == $userId",
+            ".write":"auth != null && auth.id == auth.id == $userId"
+          }
+      }
+  }
+}
