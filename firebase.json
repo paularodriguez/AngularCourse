@@ -1,0 +1,9 @@
+{
+  "firebase": "waitandeat-paula",
+  "public": "app",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
